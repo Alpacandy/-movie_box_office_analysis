@@ -1,0 +1,50 @@
+# 数据预处理配置文件
+# 用于配置电影数据预处理的各种参数
+
+# 数据加载配置
+data_loading:
+  filename: "tmdb_merged.csv"  # 要加载的数据文件名
+  use_chunks: true             # 是否使用分块加载
+  chunksize: 500000            # 分块大小
+  optimize_memory: true        # 是否优化内存使用
+  use_dask: true               # 是否使用Dask进行并行处理
+
+# 数据清洗配置
+data_cleaning:
+  remove_duplicates: true      # 是否删除重复数据
+  min_budget: 100              # 最小预算值
+  min_revenue: 100             # 最小票房值
+  max_future_years: 0          # 允许的未来年份数
+
+# 缺失值处理配置
+missing_values:
+  threshold_high_missing: 0.7  # 高缺失率阈值
+  threshold_medium_missing: 0.3 # 中等缺失率阈值
+  use_group_imputation: true   # 是否使用分组填充
+
+# 特征提取配置
+feature_extraction:
+  extract_json_features: true  # 是否提取JSON特征
+  extract_datetime_features: true # 是否提取日期时间特征
+  calculate_financial_metrics: true # 是否计算财务指标
+
+# 异常值检测配置
+outliers:
+  detection_columns: ['budget', 'revenue', 'runtime', 'return_on_investment'] # 要检测的列
+  treatment: 'keep'            # 异常值处理方式: keep, remove, cap
+
+# 性能监控配置
+performance_monitoring:
+  enabled: true                # 是否启用性能监控
+  log_to_file: false           # 是否将性能日志写入文件
+
+# 检查点配置
+checkpoints:
+  enabled: true                # 是否启用检查点
+  checkpoint_dir: "checkpoints" # 检查点目录
+
+# 验证配置
+validation:
+  enabled: true                # 是否启用数据验证
+  deep_check: false            # 是否进行深度检查
+  report_path: "validation_report.txt" # 验证报告路径

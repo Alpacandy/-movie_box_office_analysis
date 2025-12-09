@@ -1,0 +1,58 @@
+# 基础数据处理
+pandas
+numpy
+scipy
+
+# 数据处理与并行计算
+dask
+pyarrow
+
+# 可视化
+matplotlib
+seaborn
+plotly
+
+# 机器学习
+scikit-learn
+xgboost
+lightgbm
+catboost
+
+# 深度学习
+tensorflow
+keras
+torch
+
+# 特征工程
+feature-engine
+
+# 模型可解释性
+shap
+lime
+
+# 文本分析
+nltk
+spacy
+
+# 高级文本特征
+transformers
+
+# Web API
+fastapi
+uvicorn
+
+# 测试
+pytest
+pytest-cov
+
+# 代码质量
+flake8
+pylint
+mypy
+black
+isort
+
+# 其他工具
+python-dotenv
+requests
+beautifulsoup4

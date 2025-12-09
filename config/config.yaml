@@ -1,0 +1,181 @@
+# 电影票房分析项目配置文件
+# 用于配置项目各个模块的参数
+
+# 数据路径配置
+data_paths:
+  raw_data: "data/raw/"
+  processed_data: "data/processed/"
+  external_data: "data/external/"
+  feature_engineered_data: "feature_engineered_data.csv"
+
+# 模型路径配置
+model_paths:
+  traditional_models: "results/models/traditional/"
+  deep_learning_models: "results/models/deep_learning/"
+  fusion_models: "results/models/fusion/"
+  scaler_x: "deep_learning_scaler_x.joblib"
+  scaler_y: "deep_learning_scaler_y.joblib"
+
+# 结果路径配置
+result_paths:
+  reports: "results/reports/"
+  charts: "results/charts/"
+  feature_importance: "results/"
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/movie_analysis.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+
+# 数据加载配置
+data_loading:
+  filename: "tmdb_merged.csv"
+  use_chunks: true
+  chunksize: 500000
+  optimize_memory: true
+  use_dask: true
+
+# 数据清洗配置
+data_cleaning:
+  remove_duplicates: true
+  min_budget: 100
+  min_revenue: 100
+  max_future_years: 0
+
+# 缺失值处理配置
+missing_values:
+  threshold_high_missing: 0.7
+  threshold_medium_missing: 0.3
+  use_group_imputation: true
+
+# 特征提取配置
+feature_extraction:
+  extract_json_features: true
+  extract_datetime_features: true
+  calculate_financial_metrics: true
+
+# 特征工程配置
+feature_engineering:
+  bert_features: false
+  use_shap: false
+
+# 异常值检测配置
+outliers:
+  detection_columns: ['budget', 'revenue', 'runtime', 'return_on_investment']
+  treatment: 'keep'
+
+# 性能监控配置
+performance_monitoring:
+  enabled: true
+  log_to_file: false
+
+# 检查点配置
+checkpoints:
+  enabled: true
+  checkpoint_dir: "checkpoints"
+
+# 验证配置
+validation:
+  enabled: true
+  deep_check: false
+  report_path: "validation_report.txt"
+
+# 传统机器学习模型配置
+traditional_modeling:
+  random_state: 42
+  test_size: 0.2
+  models:
+    linear_regression: true
+    ridge_regression: true
+    random_forest: true
+    gradient_boosting: true
+    xgboost: true
+    lightgbm: true
+  model_params:
+    xgboost:
+      objective: 'reg:squarederror'
+      n_jobs: -1
+      n_estimators: 300
+      learning_rate: 0.05
+      max_depth: 7
+      subsample: 0.7
+      colsample_bytree: 0.7
+      reg_alpha: 0.1
+      reg_lambda: 0.1
+      min_child_weight: 3
+    lightgbm:
+      n_jobs: -1
+      n_estimators: 300
+      learning_rate: 0.05
+      max_depth: 7
+      subsample: 0.7
+      colsample_bytree: 0.7
+      min_data_in_leaf: 10
+      num_leaves: 50
+      reg_alpha: 0.1
+      reg_lambda: 0.1
+    gradient_boosting:
+      n_estimators: 200
+      learning_rate: 0.05
+      max_depth: 7
+      subsample: 0.7
+      n_iter_no_change: 15
+      tol: 0.001
+      max_features: 'sqrt'
+    random_forest:
+      n_estimators: 200
+      max_depth: 15
+      min_samples_split: 8
+      min_samples_leaf: 4
+      bootstrap: true
+      oob_score: true
+      max_features: 'sqrt'
+
+# 深度学习模型配置
+deep_learning:
+  random_state: 42
+  test_size: 0.2
+  scale: true
+  epochs: 100
+  batch_size: 32
+  early_stopping_patience: 10
+  models:
+    dense_network: true
+    cnn_network: true
+    rnn_network: true
+  model_params:
+    dense_network:
+      layers: [256, 128, 64, 32]
+      dropout_rate: 0.5
+      l2_reg: 0.001
+    cnn_network:
+      filters: [32, 64, 128]
+      kernel_size: 3
+      dropout_rate: 0.3
+    rnn_network:
+      units: [64, 32]
+      dropout_rate: 0.3
+      rnn_type: 'lstm'
+  optimizer:
+    type: 'adam'
+    learning_rate: 0.001
+
+# 模型融合配置
+model_fusion:
+  use_weights: true
+  weights: [0.25, 0.25, 0.25, 0.25]
+  cache_results: true
+  cache_dir: "results/cache/"
+  cache_ttl: 3600  # 缓存有效期（秒）
+
+# 可视化配置
+visualization:
+  figure_size: [12, 8]
+  font_size: 12
+  style: 'darkgrid'
+  save_plots: true
+  plot_format: 'png'
+  dpi: 300

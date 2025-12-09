@@ -1,0 +1,53 @@
+# 数据处理
+pandas==2.0.3
+numpy==1.24.3
+
+# 数据可视化
+matplotlib==3.7.5
+seaborn==0.12.2
+plotly==5.18.0
+dash==2.14.2
+
+# 机器学习
+scikit-learn==1.3.0
+xgboost==1.7.6
+lightgbm==3.3.5
+catboost==1.2.2
+optuna==3.3.0
+
+# 深度学习
+tensorflow==2.13.0
+keras==2.13.1
+# 模型解释性
+shap==0.42.1
+lime==0.2.0.1
+
+# 文本处理
+nltk==3.8.1
+spacy==3.6.1
+transformers==4.31.0
+# Transformer模型
+sentence-transformers==2.2.2
+bertopic==0.15.0
+# 额外依赖
+umap-learn==0.5.3
+hdbscan==0.8.29
+
+# 数据获取
+kaggle==1.5.16
+requests==2.31.0
+
+# 其他工具
+jupyter==1.0.0
+tqdm==4.66.1
+joblib==1.3.2
+pyyaml==6.0.1
+
+# API部署
+fastapi==0.103.1
+uvicorn==0.23.2
+pydantic==2.3.0
+python-multipart==0.0.6
+
+# 并行计算
+dask==2023.8.1

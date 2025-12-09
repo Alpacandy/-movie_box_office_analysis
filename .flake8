@@ -1,0 +1,13 @@
+[flake8]
+# 最大行长度
+max-line-length = 120
+# 忽略的错误
+ignore = E203, W503, E402
+# 排除的目录
+exclude = .git,__pycache__,build,dist,*.pyc,.pytest_cache
+# 每行允许的注释数量
+max-doc-length = 72
+# 启用的扩展
+extend-ignore = D100,D101,D102,D103,D104,D105,D106,D107,D200,D201,D202,D203,D204,D205,D206,D207,D208,D209,D210,D211,D212,D213,D300,D301,D400,D401,D402,D403,D404,D405,D406,D407,D408,D409,D410,D411,D412,D413
+# 使用的编码
+enconding = utf-8

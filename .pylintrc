@@ -1,0 +1,39 @@
+[MASTER]
+# 启用的检查器
+enable=all
+# 禁用的检查器
+disable=missing-docstring,invalid-name,too-many-lines,too-many-arguments,too-many-instance-attributes,too-many-locals,too-many-public-methods,too-few-public-methods,broad-except,unused-import,unused-variable
+# 最大行长度
+max-line-length=120
+# 排除的目录
+exclude=tests|build|dist|__pycache__|\.git
+
+[FORMAT]
+# 使用的缩进风格
+indent-string='    '
+# 每行缩进空格数
+indent-after-paren=4
+# 允许的空行数
+max-module-lines=1000
+
+[BASIC]
+# 模块命名风格
+module-naming-style=snake_case
+# 函数命名风格
+function-naming-style=snake_case
+# 变量命名风格
+variable-naming-style=snake_case
+# 类命名风格
+class-naming-style=PascalCase
+# 常量命名风格
+const-naming-style=UPPER_CASE
+
+[MESSAGES CONTROL]
+# 忽略的消息
+ignore=C0103,C0111,C0330,R0903,R0904,R0912,R0913,R0914,R0915,R1705,R0801
+
+[TYPECHECK]
+# 允许的未定义变量
+#ignored-modules=numpy,pandas,matplotlib,seaborn,sklearn,xgboost,lightgbm,torch,transformers
+# 允许的未定义属性
+#ignored-classes=numpy.ndarray,pandas.DataFrame,pandas.Series
