@@ -1,0 +1,317 @@
+我需要查看项目的数据目录结构，了解数据的组织方式，然后检查代码中如何划分训练集和测试集。
+        
+            
+toolName: view_folder
+            
+status: success
+          
+c:\羊驼\pro\analysis\movie_box_office_analysis\data
+          
+我需要查看建模模块的代码，了解数据是如何划分训练集和测试集的。
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: c:\羊驼\pro\analysis\movie_box_office_analysis\src\modeling.py
+          
+# 项目数据划分情况
+
+## 1. 数据结构
+
+项目的数据分为原始数据和处理后数据：
+- **原始数据**：存放在 `data/raw/` 目录，包含从多个数据源获取的电影数据
+- **处理后数据**：存放在 `data/processed/` 目录，包含清洗、转换和特征工程后的数据
+
+## 2. 数据划分方式
+
+项目并不是将所有数据都作为训练集使用，而是通过 **分层抽样** 方式将数据划分为 **训练集** 和 **测试集**：
+
+### 2.1 划分逻辑
+- 在 `src/modeling.py` 的 `prepare_data` 方法中实现
+- 默认划分比例：**80% 训练集，20% 测试集**（可通过 `test_size` 参数调整）
+- 使用 `train_test_split` 函数进行划分
+- 支持 **分层采样**，根据 `release_year` 或 `release_month` 保持数据分布一致性
+
+### 2.2 代码实现
+```python
+# 数据划分核心代码（modeling.py:368-370）
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=test_size, random_state=random_state, stratify=stratify_param
+)
+```
+
+## 3. 大规模数据处理
+
+对于大规模数据，项目有特殊处理：
+- 当数据量超过 **15万条** 时，会先进行分层采样，保留目标变量分布
+- 采样后的数据再划分为训练集和测试集
+- 在大规模数据模式下，只使用高效的梯度提升模型（XGBoost、LightGBM等）
+
+## 4. 数据使用流程
+
+1. **数据获取**：从各种数据源获取原始数据
+2. **数据预处理**：清洗、转换、处理缺失值和异常值
+3. **特征工程**：提取和构建有用特征
+4. **数据划分**：划分为训练集和测试集
+5. **模型训练**：在训练集上训练多种模型
+6. **模型评估**：在测试集上评估模型性能
+7. **模型解释**：分析特征重要性和模型预测逻辑
+8. **模型部署**：保存模型用于实际预测
+
+## 5. 模型评估方式
+
+- 使用测试集评估模型性能
+- 评估指标包括：RMSE、MAE、MAPE、R2 Score
+- 支持多种模型对比分析
+- 提供特征重要性可视化
+- 支持SHAP和LIME模型解释
+
+## 6. 缓存机制
+
+项目实现了缓存机制，避免重复计算：
+- 缓存键包含数据形状、目标变量、测试集比例等信息
+- 缓存过期时间可配置（默认3600秒）
+- 自动检查和删除过期缓存
+
+## 结论
+
+项目中的数据 **不是全部作为训练集使用**，而是按照科学的划分方式分为训练集和测试集：
+- 训练集用于模型学习
+- 测试集用于评估模型性能
+- 支持分层采样，保持数据分布一致性
+- 支持大规模数据处理，提高效率
+
+这种划分方式确保了模型的泛化能力和预测准确性，是机器学习项目的标准实践。
+
+我需要查看项目的主要入口文件main.py，了解预测功能的实现方式和使用方法。
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: c:\羊驼\pro\analysis\movie_box_office_analysis\main.py
+          
+我需要查看API部署脚本，了解预测功能的实际使用方式。
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: c:\羊驼\pro\analysis\movie_box_office_analysis\src\scripts\api_deployment.py
+          
+# 预测功能使用指南
+
+## 1. 预测功能概述
+
+该项目提供了多种电影票房预测方式，包括：
+- 完整流程运行（数据处理+特征工程+模型训练+预测）
+- API服务部署（RESTful API）
+- 支持多种模型（传统机器学习+深度学习）
+
+## 2. 准备工作
+
+### 2.1 环境搭建
+```bash
+# 1. 进入项目目录
+cd movie_box_office_analysis
+
+# 2. 创建虚拟环境
+python -m venv venv
+
+# 3. 激活虚拟环境（Windows）
+venv\Scripts\activate
+
+# 4. 安装依赖
+pip install -r requirements.txt
+```
+
+### 2.2 配置文件
+配置文件位于 `config/config.yaml`，包含模型参数、数据路径等配置，可根据需要修改。
+
+## 3. 使用方法
+
+### 3.1 方法一：运行完整流程（自动训练+预测）
+
+```bash
+# 运行完整流程（数据预处理+特征工程+模型训练+可视化）
+python main.py --full
+
+# 或分步运行
+python main.py --component preprocess  # 数据预处理
+python main.py --component features     # 特征工程
+python main.py --component modeling     # 传统模型训练
+python main.py --component deep         # 深度学习模型训练
+python main.py --component fusion       # 模型融合
+python main.py --component visualize    # 可视化
+```
+
+### 3.2 方法二：API服务部署
+
+```bash
+# 启动API服务
+python src/scripts/api_deployment.py
+
+# 可选参数
+python src/scripts/api_deployment.py --host 0.0.0.0 --port 8000 --debug
+```
+
+#### API端点说明
+- **根路径**：`http://localhost:8000/` - API信息和可用模型列表
+- **可用模型**：`http://localhost:8000/models` - 获取可用模型
+- **单预测**：`POST http://localhost:8000/predict` - 单个电影票房预测
+- **批量预测**：`POST http://localhost:8000/batch_predict` - 批量电影票房预测
+
+#### API使用示例
+
+**单预测请求**：
+```bash
+curl -X POST "http://localhost:8000/predict?model_name=lightgbm" -H "Content-Type: application/json" -d '{
+  "budget": 100000000,
+  "popularity": 83.5,
+  "runtime": 120,
+  "vote_count": 15000,
+  "vote_average": 8.5,
+  "release_year": 2023,
+  "genre_action": 1,
+  "genre_adventure": 1,
+  "genre_fantasy": 1
+}'
+```
+
+**批量预测请求**：
+```bash
+curl -X POST "http://localhost:8000/batch_predict?model_name=xgboost" -H "Content-Type: application/json" -d '[
+  {
+    "budget": 100000000,
+    "popularity": 83.5,
+    "runtime": 120,
+    "vote_count": 15000,
+    "vote_average": 8.5,
+    "release_year": 2023,
+    "genre_action": 1,
+    "genre_adventure": 1
+  },
+  {
+    "budget": 50000000,
+    "popularity": 45.2,
+    "runtime": 90,
+    "vote_count": 8000,
+    "vote_average": 7.2,
+    "release_year": 2023,
+    "genre_comedy": 1,
+    "genre_romance": 1
+  }
+]'
+```
+
+#### API文档
+启动服务后，可访问 `http://localhost:8000/docs` 查看交互式API文档，支持在线测试。
+
+## 4. 支持的模型类型
+
+项目支持多种模型，包括：
+
+### 4.1 传统机器学习模型
+- 线性回归 (linear_regression)
+- 岭回归 (ridge_regression)
+- 随机森林 (random_forest)
+- 梯度提升 (gradient_boosting)
+- XGBoost (xgboost)
+- LightGBM (lightgbm)
+
+### 4.2 深度学习模型
+- 全连接网络 (dense_network)
+- CNN网络 (cnn_network)
+- LSTM网络 (lstm_network)
+- GRU网络 (gru_network)
+
+## 5. 输入参数说明
+
+预测时需要提供的电影特征包括：
+
+| 参数名称 | 类型 | 描述 | 示例 |
+|---------|------|------|------|
+| budget | float | 电影预算（美元） | 100000000 |
+| popularity | float | 电影流行度 | 83.5 |
+| runtime | float | 电影时长（分钟） | 120 |
+| vote_count | float | 投票数量 | 15000 |
+| vote_average | float | 平均评分 | 8.5 |
+| release_year | int | 上映年份 | 2023 |
+| genre_* | int | 类型标记（0/1） | genre_action: 1 |
+
+### 类型列表
+- genre_action, genre_adventure, genre_animation
+- genre_comedy, genre_crime, genre_documentary
+- genre_drama, genre_family, genre_fantasy
+- genre_history, genre_horror, genre_music
+- genre_mystery, genre_romance, genre_science_fiction
+- genre_thriller, genre_war, genre_western
+
+## 6. 输出结果说明
+
+预测结果示例：
+```json
+{
+  "success": true,
+  "model_name": "lightgbm",
+  "features": {
+    "budget": 100000000,
+    "popularity": 83.5,
+    "runtime": 120,
+    "vote_count": 15000,
+    "vote_average": 8.5,
+    "release_year": 2023,
+    "genre_action": 1,
+    "genre_adventure": 1,
+    "genre_fantasy": 1
+  },
+  "prediction": {
+    "revenue": 456789012.34,
+    "unit": "美元"
+  }
+}
+```
+
+## 7. 最佳实践
+
+1. **数据质量优先**：确保输入数据的准确性和完整性
+2. **选择合适模型**：根据数据特征选择最合适的模型
+3. **模型融合**：结合多个模型的预测结果，提高精度
+4. **定期更新模型**：随着新数据产生，定期重新训练模型
+5. **模型解释**：使用SHAP值分析等方法解释预测结果
+
+## 8. 常见问题
+
+### 8.1 模型训练失败
+- 检查数据路径是否正确
+- 确保数据质量良好（无缺失值、异常值）
+- 调整模型参数
+
+### 8.2 API服务无法启动
+- 检查端口是否被占用
+- 确保模型文件存在于 `results/models/` 目录
+- 查看日志文件获取详细错误信息
+
+### 8.3 预测结果不准确
+- 确保输入特征与训练数据格式一致
+- 检查特征值是否在合理范围内
+- 尝试使用不同的模型
+- 考虑重新训练模型
+
+## 9. 后续扩展
+
+项目支持扩展多种功能：
+- 添加更多数据源
+- 实现实时数据预测
+- 增强模型可解释性
+- 开发Web界面
+- 支持更多模型类型
+
+通过以上方法，您可以方便地使用该项目的预测功能进行电影票房预测。

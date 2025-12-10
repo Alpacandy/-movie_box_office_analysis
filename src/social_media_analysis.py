@@ -1,9 +1,6 @@
 import os
 import pandas as pd
-import numpy as np
-import requests
 from tqdm import tqdm
-import time
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -52,7 +49,7 @@ class SocialMediaAnalysis:
                     actor = actor.strip()
                     if actor:
                         all_actors.add(actor)
-            except Exception as e:
+            except Exception:
                 continue
 
         print(f"共提取到{len(all_actors)}位演员")
@@ -88,7 +85,7 @@ class SocialMediaAnalysis:
                 for actor in cast:
                     if actor not in actor_influence:
                         actor_influence[actor] = self.estimate_actor_influence(actor)
-            except Exception as e:
+            except Exception:
                 continue
 
         # 为每部电影计算演员影响力特征
@@ -120,7 +117,7 @@ class SocialMediaAnalysis:
                     "total_actor_influence": sum(influence_scores),
                     "num_actors": len(cast)
                 }
-            except Exception as e:
+            except Exception:
                 return {
                     "top_actor_influence": 0,
                     "avg_actor_influence": 0,
