@@ -1,0 +1,17 @@
+{
+    "model_name": "Gradient Boosting",
+    "saved_at": "2025-12-09T21:17:53.695702",
+    "model_path": "C:\\羊驼\\pro\\analysis\\movie_box_office_analysis\\results\\models\\gradient_boosting_model.joblib",
+    "pipeline_steps": [
+        "imputer",
+        "scaler",
+        "model"
+    ],
+    "metrics": {
+        "RMSE": 98767947.38690501,
+        "MAE": 42498746.087953635,
+        "MAPE": 5.266124179798283,
+        "R2 Score": 0.8113710247981891,
+        "Training Time (s)": 0.32198452949523926
+    }
+}

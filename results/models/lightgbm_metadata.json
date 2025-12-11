@@ -1,0 +1,17 @@
+{
+    "model_name": "LightGBM",
+    "saved_at": "2025-12-09T21:17:58.839655",
+    "model_path": "C:\\羊驼\\pro\\analysis\\movie_box_office_analysis\\results\\models\\lightgbm_model.joblib",
+    "pipeline_steps": [
+        "imputer",
+        "scaler",
+        "model"
+    ],
+    "metrics": {
+        "RMSE": 96379974.12941195,
+        "MAE": 42073832.54752384,
+        "MAPE": 2.3002241027067174,
+        "R2 Score": 0.8203819573237245,
+        "Training Time (s)": 0.16524362564086914
+    }
+}

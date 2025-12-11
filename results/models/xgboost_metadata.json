@@ -1,0 +1,17 @@
+{
+    "model_name": "XGBoost",
+    "saved_at": "2025-12-09T21:17:56.574074",
+    "model_path": "C:\\羊驼\\pro\\analysis\\movie_box_office_analysis\\results\\models\\xgboost_model.joblib",
+    "pipeline_steps": [
+        "imputer",
+        "scaler",
+        "model"
+    ],
+    "metrics": {
+        "RMSE": 95062701.45122029,
+        "MAE": 42322212.0,
+        "MAPE": 2.4011356830596924,
+        "R2 Score": 0.8252582550048828,
+        "Training Time (s)": 0.6582934856414795
+    }
+}

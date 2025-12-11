@@ -1,0 +1,17 @@
+{
+    "model_name": "Ridge Regression",
+    "saved_at": "2025-12-09T21:17:49.096295",
+    "model_path": "C:\\羊驼\\pro\\analysis\\movie_box_office_analysis\\results\\models\\ridge_regression_model.joblib",
+    "pipeline_steps": [
+        "imputer",
+        "scaler",
+        "model"
+    ],
+    "metrics": {
+        "RMSE": 104539363.47393598,
+        "MAE": 54610727.59398225,
+        "MAPE": 20.10167717074914,
+        "R2 Score": 0.7886822141655853,
+        "Training Time (s)": 0.02458810806274414
+    }
+}

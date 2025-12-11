@@ -1,0 +1,17 @@
+{
+    "model_name": "Linear Regression",
+    "saved_at": "2025-12-09T21:17:47.358711",
+    "model_path": "C:\\羊驼\\pro\\analysis\\movie_box_office_analysis\\results\\models\\linear_regression_model.joblib",
+    "pipeline_steps": [
+        "imputer",
+        "scaler",
+        "model"
+    ],
+    "metrics": {
+        "RMSE": 104489935.86496486,
+        "MAE": 54618233.224174015,
+        "MAPE": 20.09601170525344,
+        "R2 Score": 0.788881994674819,
+        "Training Time (s)": 0.05224323272705078
+    }
+}

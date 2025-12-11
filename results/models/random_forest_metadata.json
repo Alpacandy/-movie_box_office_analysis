@@ -1,0 +1,17 @@
+{
+    "model_name": "Random Forest",
+    "saved_at": "2025-12-09T21:17:51.724367",
+    "model_path": "C:\\羊驼\\pro\\analysis\\movie_box_office_analysis\\results\\models\\random_forest_model.joblib",
+    "pipeline_steps": [
+        "imputer",
+        "scaler",
+        "model"
+    ],
+    "metrics": {
+        "RMSE": 108233684.68971266,
+        "MAE": 43316113.31403181,
+        "MAPE": 1.8336325932194355,
+        "R2 Score": 0.7734827730914091,
+        "Training Time (s)": 0.4077773094177246
+    }
+}
