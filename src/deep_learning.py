@@ -23,6 +23,7 @@ project_root = os.path.abspath(os.path.join(script_dir, ".."))
 # 将项目根目录添加到系统路径
 sys.path.append(project_root)
 
+# 导入项目内部模块
 from src.utils.logging_config import get_logger
 from src.utils.config_manager import global_config
 
@@ -152,19 +153,22 @@ class PositionalEncoding(Layer):
         super(PositionalEncoding, self).__init__()
 
         # 创建位置编码矩阵
-        position = tf.range(0, max_len, dtype=tf.float32)
-        div_term = tf.exp(tf.range(0, embed_dim, 2) * -(tf.math.log(10000.0) / embed_dim))
+        position = tf.range(0, max_len, dtype=tf.float32)[:, tf.newaxis]
+        div_term = tf.exp(tf.cast(tf.range(0, embed_dim, 2), dtype=tf.float32) * -(tf.math.log(10000.0) / embed_dim))
 
-        # 初始化位置编码
-        pe = tf.zeros((max_len, embed_dim))
-        pe[:, 0::2] = tf.sin(position[:, tf.newaxis] * div_term)
-        pe[:, 1::2] = tf.cos(position[:, tf.newaxis] * div_term)
+        # 计算正弦和余弦位置编码
+        sin_enc = tf.sin(position * div_term)
+        cos_enc = tf.cos(position * div_term)
+
+        # 交替拼接正弦和余弦编码
+        pos_encoding = tf.zeros((max_len, embed_dim))
+        pos_encoding = tf.concat([sin_enc, cos_enc], axis=1)[:, :embed_dim]
 
         # 添加批量维度
-        pe = pe[tf.newaxis, :, :]
+        pos_encoding = pos_encoding[tf.newaxis, :, :]
 
         # 将位置编码保存为非训练参数
-        self.pe = tf.Variable(initial_value=pe, trainable=False)
+        self.pe = tf.Variable(initial_value=pos_encoding, trainable=False)
 
     def call(self, x):
         """将位置编码添加到输入特征中"""
@@ -471,8 +475,11 @@ class DeepLearningModeling:
         # 将输入特征扩展到embed_dim，使用GELU激活函数
         model.add(Dense(embed_dim, activation='gelu'))
 
+        # 将输入转换为3D张量，添加序列维度
+        model.add(tf.keras.layers.Reshape((1, embed_dim)))
+
         # 添加位置编码
-        model.add(PositionalEncoding(embed_dim, input_shape))
+        model.add(PositionalEncoding(embed_dim, 1))
 
         # 添加多个高级Transformer块
         for _ in range(num_transformer_blocks):
@@ -876,10 +883,65 @@ class DeepLearningModeling:
 
         return results_df
 
+    def run_quick_transformer(self, filename="feature_engineered_data.csv", target='revenue', epochs=1):
+        """快速运行Transformer模型，减少epoch数量以加快训练速度"""
+        self.logger.info("=" * 60)
+        self.logger.info("Starting quick Transformer model training")
+        self.logger.info("=" * 60)
+
+        # 1. 加载数据
+        data = self.load_data(filename)
+        if data is None:
+            return None
+
+        # 2. 准备数据
+        X_train, X_test, y_train, y_test, features, scaler_X, scaler_y = self.prepare_data(data, target)
+
+        # 3. 构建模型
+        input_shape = X_train.shape[1]
+        model = self.build_transformer_network(
+            input_shape, 
+            embed_dim=128, 
+            num_heads=8, 
+            ff_dim=256, 
+            num_transformer_blocks=4, 
+            dropout_rate=0.3
+        )
+
+        # 编译模型
+        model = self.compile_model(model, optimizer='adam', learning_rate=0.001)
+
+        # 训练模型，使用较少的epoch
+        model, history = self.train_model(model, X_train, y_train, X_test, y_test, epochs=epochs, batch_size=32, model_name='Transformer Network')
+
+        # 评估模型
+        metrics, y_test_inv, y_pred_inv = self.evaluate_model(model, X_test, y_test, scaler_y)
+
+        # 显示评估结果
+        self.logger.info("\nTransformer Network评估结果:")
+        for metric, value in metrics.items():
+            print(f"  {metric}: {value:.4f}")
+
+        # 绘制训练历史
+        self.plot_training_history(history, 'Transformer Network')
+
+        # 绘制实际值与预测值对比图
+        self.plot_actual_vs_predicted(y_test_inv, y_pred_inv, 'Transformer Network')
+
+        # 保存模型
+        self.save_model(model, 'Transformer Network')
+
+        self.logger.info("\n" + "=" * 60)
+        self.logger.info("Quick Transformer model training completed!")
+        self.logger.info("=" * 60)
+
+        return metrics
+
 def main():
     """主函数，执行完整的深度学习建模流程"""
     dl_modeling = DeepLearningModeling()
-    dl_modeling.run_complete_deep_learning()
+    # 快速运行Transformer模型
+    dl_modeling.run_quick_transformer()
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,133 @@
+我需要查看result目录下的文件和文件夹，以了解可用的结果图片或网站。
+        
+            
+toolName: view_folder
+            
+status: failed
+          
+c:\羊驼\pro\analysis\result
+          
+我需要先查看当前工作目录的结构，了解项目的文件组织。
+        
+            
+toolName: view_folder
+            
+status: success
+          
+c:\羊驼\pro\analysis
+          
+我需要查看movie_box_office_analysis目录下的内容，查找可能包含结果图片或网站的文件夹。
+        
+            
+toolName: view_folder
+            
+status: success
+          
+c:\羊驼\pro\analysis\movie_box_office_analysis
+          
+我需要查看visualization.py文件，了解结果是如何保存的，以及可能的结果路径。
+        
+            
+toolName: view_files
+            
+status: success
+          
+            
+filePath: c:\羊驼\pro\analysis\movie_box_office_analysis\src\visualization.py
+          
+我需要检查results/charts目录是否存在，以及里面有哪些文件。
+        
+            
+toolName: view_folder
+            
+status: success
+          
+c:\羊驼\pro\analysis\movie_box_office_analysis\results
+          
+我需要查看results/charts目录下的详细文件列表，以了解所有可用的结果图片和HTML文件。
+        
+            
+toolName: view_folder
+            
+status: success
+          
+c:\羊驼\pro\analysis\movie_box_office_analysis\results\charts
+          
+我已经收集了所有可用的结果图片和网站信息，现在需要整理成清晰的列表。# 可用结果图片和网站
+
+## 主要结果图表 (results/charts/)
+
+### 基础可视化图片
+- `basic_budget_vs_revenue.png` - 预算与票房关系散点图
+- `basic_genre_distribution.png` - 电影类型分布条形图
+- `basic_revenue_distribution.png` - 票房分布直方图
+
+### 深度学习模型结果
+- `cnn_network_actual_vs_predicted.png` - CNN网络实际值与预测值对比图
+- `cnn_network_training_history.png` - CNN网络训练历史曲线
+- `deep_model_comparison_r2.png` - 深度学习模型R²评分对比
+- `dense_network_actual_vs_predicted.png` - 密集网络实际值与预测值对比图
+- `dense_network_training_history.png` - 密集网络训练历史曲线
+- `gru_network_actual_vs_predicted.png` - GRU网络实际值与预测值对比图
+- `gru_network_training_history.png` - GRU网络训练历史曲线
+- `lstm_network_actual_vs_predicted.png` - LSTM网络实际值与预测值对比图
+- `lstm_network_training_history.png` - LSTM网络训练历史曲线
+
+### 机器学习模型结果
+- `gradient_boosting_actual_vs_predicted.png` - 梯度提升实际值与预测值对比图
+- `gradient_boosting_feature_importance.png` - 梯度提升特征重要性图
+- `lightgbm_actual_vs_predicted.png` - LightGBM实际值与预测值对比图
+- `lightgbm_feature_importance.png` - LightGBM特征重要性图
+- `random_forest_actual_vs_predicted.png` - 随机森林实际值与预测值对比图
+- `random_forest_feature_importance.png` - 随机森林特征重要性图
+- `ridge_regression_actual_vs_predicted.png` - 岭回归实际值与预测值对比图
+- `ridge_regression_feature_importance.png` - 岭回归特征重要性图
+- `xgboost_actual_vs_predicted.png` - XGBoost实际值与预测值对比图
+- `xgboost_feature_importance.png` - XGBoost特征重要性图
+
+### 模型对比
+- `model_comparison_r2.png` - 所有模型R²评分对比图
+- `model_comparison_rmse.png` - 所有模型RMSE评分对比图
+
+### 交互式可视化网站
+- `interactive_budget_vs_revenue.html` - 预算与票房交互式散点图
+- `interactive_top_directors.html` - 交互式导演排行榜
+- `interactive_yearly_trend.html` - 交互式年度票房趋势图
+
+### 交互式仪表板
+- `movie_box_office_dashboard.py` - 电影票房分析仪表板Python代码
+  - 运行命令：`python results/charts/movie_box_office_dashboard.py`
+  - 访问地址：http://localhost:8050
+
+## 额外结果图表
+
+### result_2/charts/
+- `revenue_boxplot.png` - 票房箱线图
+- `revenue_distribution.png` - 票房分布图
+
+### result_3/charts/ 和 result_5/charts/
+- `budget_vs_revenue.png` - 预算与票房关系图
+- `budget_vs_roi.png` - 预算与ROI关系图
+- `correlation_heatmap.png` - 相关性热力图
+- `genre_counts.png` - 电影类型数量图
+- `genre_vs_rating.png` - 类型与评分关系图
+- `genre_vs_revenue.png` - 类型与票房关系图
+- `monthly_revenue.png` - 月度票房趋势图
+- `rating_distribution.png` - 评分分布图
+- `rating_vs_revenue.png` - 评分与票房关系图
+- `revenue_boxplot.png` - 票房箱线图
+- `revenue_buckets.png` - 票房分箱图
+- `revenue_by_studio_type.png` - 不同类型工作室票房对比
+- `revenue_distribution.png` - 票房分布图
+- `top_directors.png` - 顶级导演排行榜
+- `yearly_budget_trend.png` - 年度预算趋势图
+- `yearly_revenue_trend.png` - 年度票房趋势图
+
+## 访问方法
+
+所有图片文件均可直接打开查看。交互式HTML文件可以用浏览器打开。仪表板需要运行Python代码后通过浏览器访问。
+
+### 示例访问路径
+- 图片：`c:\羊驼\pro\analysis\movie_box_office_analysis\results\charts\basic_revenue_distribution.png`
+- 交互式HTML：`c:\羊驼\pro\analysis\movie_box_office_analysis\results\charts\interactive_budget_vs_revenue.html`
+- 仪表板：运行Python代码后访问 http://localhost:8050

@@ -506,6 +506,76 @@ class EDAnalysis:
 
         return revenue_corr
 
+    def cluster_analysis(self, data):
+        """执行聚类分析，生成肘部曲线图和kmeans簇特征均值对比图"""
+        print("\n" + "=" * 50)
+        print("聚类分析")
+        print("=" * 50)
+        
+        from sklearn.cluster import KMeans
+        from sklearn.preprocessing import StandardScaler
+        from sklearn.metrics import silhouette_score
+        
+        # 选择聚类特征
+        cluster_features = ['budget', 'revenue', 'popularity', 'vote_average', 'runtime']
+        X = data[cluster_features].dropna()
+        
+        # 数据标准化
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+        
+        # K-Means聚类
+        # 确定最佳簇数
+        inertia = []
+        silhouette_scores = []
+        k_values = range(2, 11)
+        
+        for k in k_values:
+            kmeans = KMeans(n_clusters=k, random_state=42)
+            kmeans.fit(X_scaled)
+            inertia.append(kmeans.inertia_)
+            silhouette_scores.append(silhouette_score(X_scaled, kmeans.labels_))
+        
+        # 绘制肘部曲线和轮廓系数曲线
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+        ax1.plot(k_values, inertia, 'bx-')
+        ax1.set_xlabel('k')
+        ax1.set_ylabel('Inertia')
+        ax1.set_title('K-Means 肘部曲线')
+        
+        ax2.plot(k_values, silhouette_scores, 'bx-')
+        ax2.set_xlabel('k')
+        ax2.set_ylabel('Silhouette Score')
+        ax2.set_title('K-Means 轮廓系数曲线')
+        plt.tight_layout()
+        plt.savefig(os.path.join(self.charts_dir, 'clustering_elbow_silhouette.png'), dpi=300, bbox_inches='tight')
+        plt.close()
+        print("聚类肘部曲线图已保存")
+        
+        # 使用最佳簇数（假设k=4）
+        k = 4
+        kmeans = KMeans(n_clusters=k, random_state=42)
+        kmeans_labels = kmeans.fit_predict(X_scaled)
+        X['kmeans_cluster'] = kmeans_labels
+        
+        # 分析不同簇的特征差异
+        print("\nK-Means聚类特征均值:")
+        cluster_means = X.groupby('kmeans_cluster')[cluster_features].mean()
+        print(cluster_means)
+        
+        # 绘制kmeans簇特征均值对比图
+        cluster_means.plot(kind='bar', figsize=(12, 8))
+        plt.title('Feature Mean Comparison Across K-Means Clusters')
+        plt.xlabel('Cluster')
+        plt.ylabel('Mean Value (Standardized)')
+        plt.xticks(rotation=0)
+        plt.legend(loc='upper right')
+        plt.grid(axis='y', alpha=0.3)
+        plt.tight_layout()
+        plt.savefig(os.path.join(self.charts_dir, 'kmeans_cluster_features_mean.png'), dpi=300, bbox_inches='tight')
+        plt.close()
+        print("K-Means簇特征均值对比图已保存")
+
     def run_complete_eda(self, filename="cleaned_movie_data.csv", sample_size=None):
         """运行完整的EDA分析"""
         # 1. 加载数据
@@ -541,6 +611,9 @@ class EDAnalysis:
 
         # 9. 相关性分析
         revenue_corr = self.correlation_analysis(data)
+        
+        # 10. 聚类分析
+        self.cluster_analysis(data)
 
         logger.info("\n" + "=" * 50)
         logger.info("EDA分析完成！")
