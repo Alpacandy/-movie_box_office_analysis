@@ -122,6 +122,6 @@ Thumbs.db
 
 # Project specific
 # results/  # 取消忽略results目录
-data/
+# data/  # 取消忽略data目录
 logs/
 modeling_recovered.py
