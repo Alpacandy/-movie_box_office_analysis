@@ -121,7 +121,7 @@ dmypy.json
 Thumbs.db
 
 # Project specific
-results/
+# results/  # 取消忽略results目录
 data/
 logs/
 modeling_recovered.py
